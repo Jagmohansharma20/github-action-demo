@@ -1,0 +1,33 @@
+name: Multi-Job demo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout my code
+        uses: actions/checkout@v4
+
+      - name: List all files
+        run: ls -la
+
+      - name: Check index.html exists
+        run: |
+          if [ -f index.html ]; then
+            echo "index.html found ✅"
+          else
+            echo "index.html NOT found ❌"
+            exit 1
+          fi
+
+  notify-done:
+    runs-on: ubuntu-latest
+    needs: check-files
+
+    steps:
+      - name: Success message
+        run: echo "check-files passed!"git add
